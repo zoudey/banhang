@@ -216,7 +216,7 @@
             if ($item->parent_id == $parent_id) {
                 echo '<option value="' . $item->id . '">' . $char . $item->name . '</option>';
                 unset($category[$key]);
-                Showcate($category, $item->id, $char . '=>');
+                Showcate($category, $item->id, $char . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp');
             }
         }
     }

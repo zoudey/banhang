@@ -167,6 +167,7 @@
                             <th scope="col">id</th>
                             <th scope="col">Tên Sản Phẩm</th>
                             <th scope="col">Loại Danh Mục</th>
+                            <th scope="col">Cấp Độ</th>
                             <th scope="col">Trạng Thái</th>
                             <th scope="col">Hành Động</th>
                         </tr>
@@ -180,7 +181,14 @@
                                     @if ($category->type == 0)
                                         <button class="btn btn-success">Sản Phẩm</button>
                                     @else
-                                        <button class="btn btn-warning">Bài Biết</button>
+                                        <button class="btn btn-warning">Bài Viết</button>
+                                    @endif
+                                </td>
+                                <td>
+                                    @if ($category->parent_id == 0)
+                                        <button class="btn btn-success">Cha</button>
+                                    @else
+                                        <button class="btn btn-warning">Con</button>
                                     @endif
                                 </td>
                                 <td>
@@ -191,7 +199,7 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <form action="{{ route('thuonghieu.edit_thuong_hieu', $category->id) }}"
+                                    <form action="{{ route('danhmuc.sua_danh_muc', $category->id) }}"
                                         method="POST">
                                         @csrf
                                         @method('GET')
@@ -199,8 +207,7 @@
                                             <i class="far fa-edit"></i>
                                         </button>
                                     </form>
-                                    <form action="{{ route('danhmuc.xoa_danh_muc', $category->id) }}"
-                                        method="POST">
+                                    <form action="{{ route('danhmuc.xoa_danh_muc', $category->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">

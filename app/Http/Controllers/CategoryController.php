@@ -31,4 +31,25 @@ class CategoryController extends Controller
             return redirect()->back();
         }
     }
+    public function sua_danh_muc(Category $id) {
+        $category = Category::select('*')->get();
+        return view('admin.category.edit', [
+            'category' => $category,
+            'cate' => $id,
+        ]);
+    }
+    public function edit_danh_muc(Request $request) {
+        $category = Category::find($request->id);
+
+        $category->update([
+            'name' => $request->name,
+            'parent_id' => $request->parent_id,
+            'status' => $request->status,
+            'type' => $request->type,
+            'content' => $request->content,
+        ]);
+        // dd($category);
+        return redirect()->route('danhmuc.danhmuc')->with('thongbao', 'Sửa sản phẩm thành công');
+    }
+
 }
