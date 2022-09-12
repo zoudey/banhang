@@ -192,39 +192,8 @@
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Danh Mục Cha</label>
                                         <select name="parent_id" class="form-control" id="">
-                                            @if ($cate->parent_id == 0)
-                                                <option {{ $cate->parent_id == 0 ? 'selected' : '' }} value="0">Danh
-                                                    Mục Cha</option>
-                                                @foreach ($category as $key => $item)
-                                                    <option value="{{ $item->id }}">
-                                                        @php
-                                                            $str = '';
-                                                            for ($i = 0; $i < $item->parent_id; $i++) {
-                                                                echo $str;
-                                                                $str = '-';
-                                                            }
-                                                        @endphp
-                                                        {{-- {{$cate->id}} --}}
-                                                        {{ $item->name }}
-                                                    </option>
-                                                @endforeach
-                                            @else
-                                                <option value="0">Danh Mục Cha</option>
-                                                @foreach ($category as $key => $item)
-                                                    <option {{ $item->id == $cate->parent_id ? 'selected' : '' }}
-                                                        value="{{ $item->id }}">
-                                                        @php
-                                                            $str = '';
-                                                            for ($i = 0; $i < $item->parent_id; $i++) {
-                                                                echo $str;
-                                                                $str = '-';
-                                                            }
-                                                        @endphp
-                                                        {{-- {{$cate->id}} --}}
-                                                        {{ $item->name }}
-                                                    </option>
-                                                @endforeach
-                                            @endif
+                                            <option value="0">Danh Mục Cha</option>
+                                            <?php edit($category,$cate); ?>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -243,4 +212,16 @@
             </div>
         </section>
     </div>
+    @php
+        function edit($cate, $category, $parent_id = 0, $char = '')
+        {
+            foreach ($cate as $key => $item) {
+                if ($item->parent_id == $parent_id) {
+                    echo '<option ' . ($category->parent_id == $item->id ? 'selected' : '') . ' value="' . $item->id . '">' . $char . $item->name . '</option>';
+                    unset($cate[$key]);
+                    edit($cate, $category, $item->id, $char . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+                }
+            }
+        }
+    @endphp
 @endsection

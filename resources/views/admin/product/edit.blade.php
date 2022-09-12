@@ -222,10 +222,7 @@
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Danh Mục</label>
                                         <select name="cate_id" class="form-control" id="">
-                                            @foreach ($category as $item)
-                                                <option {{ $product->cate_id == 0 ? 'selected' : '' }}
-                                                    value="{{ $item->id }}">{{ $item->name }}</option>
-                                            @endforeach
+                                            <?php edit($category,$product); ?>
                                         </select>
                                     </div>
                                     <div class="form-floating">
@@ -239,4 +236,16 @@
             </div>
         </section>
     </div>
+    @php
+        function edit($cate, $category, $parent_id = 0, $char = '')
+        {
+            foreach ($cate as $key => $item) {
+                if ($item->parent_id == $parent_id) {
+                    echo '<option ' . ($category->parent_id == $item->id ? 'selected' : '') . ' value="' . $item->id . '">' . $char . $item->name . '</option>';
+                    unset($cate[$key]);
+                    edit($cate, $category, $item->id, $char . '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;');
+                }
+            }
+        }
+    @endphp
 @endsection
